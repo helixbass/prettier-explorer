@@ -17,6 +17,7 @@
     "@types/react-transition-group": "^4.4.0",
     "ad-hok": "^0.1.0",
     "ad-hok-utils": "^0.0.4",
+    "codemirror": "^5.56.0",
     "color": "^3.1.2",
     "customize-cra": "^1.0.0",
     "eslint-config-prettier": "^6.11.0",
@@ -121,5 +122,9 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "@types/codemirror": "^0.0.97",
+    "@types/prettier": "^2.0.2"
   }
 }

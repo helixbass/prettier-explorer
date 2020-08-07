@@ -289,6 +289,9 @@ imports:
   GraphQLList: graphql
   GraphQLUnionType: graphql
   InterpolationWithTheme: '@emotion/core'
+  GlobalStyles:
+    module: '@emotion/core'
+    name: Global
   gsap:
     module: 'gsap'
     default: true
@@ -300,6 +303,9 @@ imports:
     module: color
     default: true
   Transition: react-transition-group
+  CodeMirror:
+    module: codemirror
+    default: true
 whitelist:
   - directory: src/
     allowed: [filename, named]

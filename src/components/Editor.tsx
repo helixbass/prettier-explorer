@@ -25,7 +25,8 @@ type Timer = ReturnType<typeof setTimeout>
 
 interface Props {
   initialValue: string
-  onContentChange?: (opts: {value: string; cursor: number}) => void
+  onContentChange?: (opts: {value: string; cursorPosition: number}) => void
+  onCursorPositionChange?: (cursorPosition: number) => void
 }
 
 const Editor: FC<Props> = flowMax(
@@ -92,8 +93,17 @@ const Editor: FC<Props> = flowMax(
       setValue(value)
       onContentChange?.({
         value,
-        cursor: doc.indexFromPos(doc.getCursor()),
+        cursorPosition: doc.indexFromPos(doc.getCursor()),
       })
+    },
+    onCursorPositionChangeHandler: ({
+      onCursorPositionChange,
+      codeMirrorRef,
+    }) => () => {
+      const doc = codeMirrorRef.current!.getDoc()
+      onCursorPositionChange?.(
+        doc.indexFromPos(codeMirrorRef.current!.getCursor()),
+      )
     },
   }),
   addEffectOnMount(
@@ -105,6 +115,7 @@ const Editor: FC<Props> = flowMax(
       addCodeMirrorHandler,
       resetUpdateTimer,
       onContentChangeHandler,
+      onCursorPositionChangeHandler,
       unbindCodeMirrorHandlers,
     }) => () => {
       const codeMirror = CodeMirror(container.current!, {
@@ -117,6 +128,13 @@ const Editor: FC<Props> = flowMax(
         event: 'changes',
         handler: () => {
           resetUpdateTimer(setTimeout(onContentChangeHandler, 200))
+        },
+      })
+
+      addCodeMirrorHandler({
+        event: 'cursorActivity',
+        handler: () => {
+          resetUpdateTimer(setTimeout(onCursorPositionChangeHandler, 100))
         },
       })
 

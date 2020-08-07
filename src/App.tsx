@@ -5,6 +5,7 @@ import {makeStyles} from 'utils/style'
 import colors from 'utils/colors'
 import Editor from 'components/Editor'
 import {addCodeMirrorGlobalStyles} from 'utils/codeMirror'
+import {log} from 'utils/fp'
 
 const App: FC = flowMax(
   addDisplayName('App'),
@@ -17,19 +18,27 @@ const App: FC = flowMax(
     {
       onCodeContentChange: () => ({
         value,
-        cursor,
+        cursorPosition,
       }: {
         value: string
-        cursor: number
+        cursorPosition: number
       }) => ({
         code: value,
-        codeCursorPosition: cursor,
+        codeCursorPosition: cursorPosition,
+      }),
+      onCodeCursorPositionChange: () => (cursorPosition: number) => ({
+        codeCursorPosition: cursorPosition,
       }),
     },
   ),
-  ({onCodeContentChange}) => (
+  log('pr'),
+  ({onCodeContentChange, onCodeCursorPositionChange}) => (
     <div css={styles.container}>
-      <Editor initialValue="" onContentChange={onCodeContentChange} />
+      <Editor
+        initialValue=""
+        onContentChange={onCodeContentChange}
+        onCursorPositionChange={onCodeCursorPositionChange}
+      />
     </div>
   ),
 )

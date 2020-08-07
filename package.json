@@ -1,0 +1,125 @@
+{
+  "name": "prettier-explorer",
+  "version": "0.1.0",
+  "private": true,
+  "dependencies": {
+    "@emotion/babel-preset-css-prop": "^10.0.27",
+    "@emotion/core": "^10.0.28",
+    "@testing-library/jest-dom": "^5.9.0",
+    "@testing-library/react": "^10.2.1",
+    "@testing-library/user-event": "^12.0.2",
+    "@types/color": "^3.0.1",
+    "@types/jest": "^25.0.0",
+    "@types/lodash": "^4.14.155",
+    "@types/node": "^12.0.0",
+    "@types/react": "^16.9.0",
+    "@types/react-dom": "^16.9.0",
+    "@types/react-transition-group": "^4.4.0",
+    "ad-hok": "^0.1.0",
+    "ad-hok-utils": "^0.0.4",
+    "color": "^3.1.2",
+    "customize-cra": "^1.0.0",
+    "eslint-config-prettier": "^6.11.0",
+    "eslint-plugin-ad-hok": "github:helixbass/eslint-plugin-ad-hok#eslint-plugin-ad-hok-v0.2.2-dev.1-gitpkg",
+    "eslint-plugin-import": "^2.21.2",
+    "eslint-plugin-known-imports": "github:helixbass/eslint-plugin-known-imports#eslint-plugin-known-imports-v0.0.15-dev.2-gitpkg",
+    "eslint-plugin-prettier": "^3.1.4",
+    "eslint-plugin-styles-object": "^0.0.4",
+    "gsap": "^3.3.3",
+    "lodash": "^4.17.15",
+    "prettier": "^2.0.5",
+    "react": "^16.13.1",
+    "react-app-rewired": "^2.1.6",
+    "react-dom": "^16.13.1",
+    "react-scripts": "3.4.1",
+    "react-transition-group": "^4.4.1",
+    "typescript": "^3.9.5",
+    "web-vitals": "^0.2.2"
+  },
+  "scripts": {
+    "start": "react-app-rewired start",
+    "build": "react-app-rewired build",
+    "test": "react-app-rewired test",
+    "eject": "react-app-rewired eject",
+    "lint": "eslint '**/*.ts' '**/*.tsx'"
+  },
+  "eslintConfig": {
+    "extends": [
+      "react-app",
+      "prettier",
+      "plugin:known-imports/recommended-react",
+      "plugin:known-imports/recommended-typescript",
+      "plugin:ad-hok/recommended"
+    ],
+    "plugins": [
+      "prettier",
+      "styles-object",
+      "known-imports",
+      "ad-hok",
+      "import"
+    ],
+    "rules": {
+      "prettier/prettier": "error",
+      "styles-object/no-unused-styles": "error",
+      "styles-object/no-undef-styles": "error",
+      "known-imports/no-unused-vars": [
+        "error",
+        {
+          "args": "after-used",
+          "ignoreRestSiblings": true,
+          "argsIgnorePattern": "^_"
+        }
+      ],
+      "import/order": [
+        "error",
+        {
+          "groups": [
+            [
+              "builtin",
+              "external"
+            ],
+            [
+              "internal",
+              "parent",
+              "sibling",
+              "index",
+              "unknown"
+            ]
+          ],
+          "newlines-between": "always"
+        }
+      ],
+      "ad-hok/dependencies": "error",
+      "ad-hok/require-adddisplayname": "error"
+    },
+    "settings": {
+      "styles-object/stylesheet-create-function": "makeStyles",
+      "known-imports/extensions": [
+        ".ts",
+        ".tsx",
+        ".js",
+        ".jsx"
+      ],
+      "import/extensions": [
+        ".ts",
+        ".tsx",
+        ".js",
+        ".jsx"
+      ],
+      "import/internal-regex": "^(components|utils|graphql|config)/|^(App|theme|i18n-init)$",
+      "ad-hok/should-fix-flow-flowmax": true
+    }
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  }
+}

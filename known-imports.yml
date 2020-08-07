@@ -1,0 +1,308 @@
+imports:
+  flow: lodash/fp
+  indexOf: lodash/fp
+  slice: lodash/fp
+  assign: lodash/fp
+  assignAll: lodash/fp
+  filter: lodash/fp
+  reject: lodash/fp
+  forEach: lodash/fp
+  each: lodash/fp
+  fromPairs: lodash/fp
+  get: lodash/fp
+  set: lodash/fp
+  setMutate:
+    module: lodash
+    name: set
+  getOr: lodash/fp
+  groupBy: lodash/fp
+  repeat: lodash/fp
+  countBy: lodash/fp
+  pick: lodash/fp
+  pickBy: lodash/fp
+  keys: lodash/fp
+  map: lodash/fp
+  flatMap: lodash/fp
+  sample: lodash/fp
+  sortBy: lodash/fp
+  split: lodash/fp
+  mapValues: lodash
+  mapKeys: lodash/fp
+  flatten: lodash/fp
+  uniqBy: lodash/fp
+  uniq: lodash
+  take: lodash/fp
+  find: lodash/fp
+  some: lodash/fp
+  join: lodash/fp
+  min: lodash/fp
+  max: lodash/fp
+  sum: lodash/fp
+  negate: lodash/fp
+  trimCharsStart: lodash/fp
+  last: lodash/fp
+  first: lodash/fp
+  values: lodash/fp
+  upperFirst: lodash/fp
+  omit: lodash/fp
+  findIndex: lodash/fp
+  without: lodash/fp
+  isEmpty: lodash/fp
+  isPlainObject: lodash/fp
+  isString: lodash/fp
+  isFunction: lodash/fp
+  isArray: lodash/fp
+  isNumber: lodash/fp
+  identity: lodash/fp
+  delay: lodash
+  defer: lodash/fp
+  ceil: lodash/fp
+  random: lodash
+  debounce: lodash/fp
+  throttle: lodash/fp
+  camelCase: lodash/fp
+  isUndefined: lodash/fp
+  pluck: lodash/fp
+  chunk: lodash/fp
+  isEqual: lodash/fp
+  drop: lodash/fp
+  toUpper: lodash/fp
+  replace: lodash/fp
+  isNaN: lodash/fp
+  has: lodash/fp
+  includes: lodash/fp
+  reduce: lodash/fp
+  range: lodash
+  round: lodash
+  floor: lodash
+  fill: lodash
+  numeral:
+    module: numeral
+    default: true
+  React:
+    module: react
+    default: true
+  Fragment: react
+  Suspense: react
+  useEffect: react
+  useLayoutEffect: react
+  useState: react
+  useReducer: react
+  useRef: react
+  forwardRef: react
+  createFactory: react
+  createContext: react
+  Children: react
+  cloneElement: react
+  isValidElement: react
+  FC: react
+  ReactNode: react
+  ComponentProps: react
+  ComponentType: react
+  ElementType: react
+  MutableRefObject: react
+  Context: react
+  ReactElement: react
+  Ref: react
+  Reducer: react
+  PropTypes:
+    module: prop-types
+    default: true
+  addState: ad-hok
+  addStateHandlers: ad-hok
+  addProps: ad-hok
+  addRef: ad-hok
+  addHandlers: ad-hok
+  addEffect: ad-hok
+  addPropTypes: ad-hok
+  addContext: ad-hok
+  flowMax: ad-hok
+  branch: ad-hok
+  branchPure: ad-hok
+  renderNothing: ad-hok
+  returns: ad-hok
+  addWrapper: ad-hok
+  addWrapperHOC: ad-hok
+  addDisplayName: ad-hok
+  SimplePropsAdder: ad-hok
+  CurriedPropsAdder: ad-hok
+  SimpleUnchangedProps: ad-hok
+  UnchangedProps: ad-hok
+  HandlerCreators: ad-hok
+  PropAddingHOCType: ad-hok
+  AddWrapperRenderCallback: ad-hok
+  addMemoBoundary: ad-hok
+  addLayoutEffect: ad-hok
+  addReducer: ad-hok
+  moment:
+    module: moment
+    default: true
+  gql:
+    module: graphql-tag
+    default: true
+  ApolloQuery:
+    module: react-apollo
+    name: Query
+  ApolloMutation:
+    module: react-apollo
+    name: Mutation
+  ApolloConsumer: react-apollo
+  MockedApolloProvider:
+    module: '@apollo/react-testing'
+    name: MockedProvider
+  ApolloLink: apollo-link
+  InMemoryCache: apollo-cache-inmemory
+  ApolloClient:
+    module: apollo-boost
+    default: true
+  ApolloError: apollo-boost
+  ApolloProvider: '@apollo/react-hooks'
+  useQuery: '@apollo/react-hooks'
+  useMutation: '@apollo/react-hooks'
+  MutationFunction: '@apollo/react-common'
+  i18n:
+    module: i18next
+    default: true
+  TFunction: i18next
+  initReactI18next: react-i18next
+  useTranslation: react-i18next
+  cx:
+    module: classnames
+    default: true
+  Theme: '@material-ui/core'
+  ThemeProvider: '@material-ui/core'
+  CssBaseline:
+    module: '@material-ui/core/CssBaseline'
+    default: true
+  Typography:
+    module: '@material-ui/core/Typography'
+    default: true
+  ToggleButtonGroupProps: '@material-ui/lab/ToggleButtonGroup'
+  createMuiTheme:
+    module: '@material-ui/core/styles'
+    name: unstable_createMuiStrictModeTheme
+  # makeStyles: '@material-ui/core/styles'
+  Styles: '@material-ui/styles/withStyles'
+  ClassNameMap: '@material-ui/styles/withStyles'
+  MuiPickersUtilsProvider: '@material-ui/pickers'
+  KeyboardDateTimePicker: 'formik-material-ui-pickers'
+  DateTimePicker: 'formik-material-ui-pickers'
+  DatePicker: 'formik-material-ui-pickers'
+  WarningIcon:
+    module: '@material-ui/icons/Warning'
+    default: true
+  PersonIcon:
+    module: '@material-ui/icons/Person'
+    default: true
+  AddIcon:
+    module: '@material-ui/icons/Add'
+    default: true
+  CheckIcon:
+    module: '@material-ui/icons/Check'
+    default: true
+  ClearIcon:
+    module: '@material-ui/icons/Clear'
+    default: true
+  LinkOffIcon:
+    module: '@material-ui/icons/LinkOff'
+    default: true
+  LaunchIcon:
+    module: '@material-ui/icons/Launch'
+    default: true
+  CloseIcon:
+    module: '@material-ui/icons/Close'
+    default: true
+  RemoveCircleIcon:
+    module: '@material-ui/icons/RemoveCircle'
+    default: true
+  ErrorIcon:
+    module: '@material-ui/icons/Error'
+    default: true
+  DeleteIcon:
+    module: '@material-ui/icons/Delete'
+    default: true
+  BrowserRouter: react-router-dom
+  Routes: react-router-dom
+  Route: react-router-dom
+  useNavigate: react-router-dom
+  useParams: react-router-dom
+  generatePath: react-router
+  Formik: formik
+  useFormikContext: formik
+  FormikProps: formik
+  FormikContextType: formik
+  FieldProps: formik
+  FormikHelpers: formik
+  FormikErrors: formik
+  ArrayHelpers: formik
+  Yup:
+    module: yup
+    namespace: true
+  DateFnsUtils:
+    module: '@date-io/date-fns'
+    default: true
+  formatISO:
+    module: 'date-fns/formatISO'
+    default: true
+  format: 'date-fns/fp'
+  parse:
+    module: 'date-fns/parse'
+    default: true
+  parseISO:
+    module: 'date-fns/parseISO'
+    default: true
+  differenceInYears:
+    module: 'date-fns/differenceInYears'
+    default: true
+  formatDistance:
+    module: 'date-fns/formatDistance'
+    default: true
+  getYear:
+    module: 'date-fns/getYear'
+    default: true
+  subMonths:
+    module: 'date-fns/subMonths'
+    default: true
+  addMonths:
+    module: 'date-fns/addMonths'
+    default: true
+  isDateBefore:
+    module: 'date-fns/isBefore'
+    default: true
+  setDayOfMonth:
+    module: 'date-fns/setDate'
+    default: true
+  differenceInMonths:
+    module: 'date-fns/differenceInMonths'
+    default: true
+  zonedTimeToUtc: date-fns-tz
+  utcToZonedTime: date-fns-tz
+  raw:
+    module: 'raw.macro'
+    default: true
+  buildSchema: graphql
+  DocumentNode: graphql
+  DefinitionNode: graphql
+  GraphQLScalarType: graphql
+  GraphQLObjectType: graphql
+  GraphQLNonNull: graphql
+  GraphQLList: graphql
+  GraphQLUnionType: graphql
+  InterpolationWithTheme: '@emotion/core'
+  gsap:
+    module: 'gsap'
+    default: true
+  addEffectOnMount: ad-hok-utils
+  addLayoutEffectOnMount: ad-hok-utils
+  cleanupProps: ad-hok-utils
+  addExtendedHandlers: ad-hok-utils
+  colorUtil:
+    module: color
+    default: true
+  Transition: react-transition-group
+whitelist:
+  - directory: src/
+    allowed: [filename, named]
+    prefix: ''
+blacklist:
+  - styles

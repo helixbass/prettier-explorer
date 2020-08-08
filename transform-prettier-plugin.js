@@ -8,6 +8,35 @@ const getFilename = (state) => state.file.opts.filename
 const getRelativeFilename = (state) =>
   path.relative(getCopyTargetDirectory(), getFilename(state))
 
+const modifyCoreFormatDefinition = (functionDeclarationPath, state, t) => {
+  if (!/main\/core\.js$/.test(getRelativeFilename(state))) return
+
+  const {
+    node: {id},
+  } = functionDeclarationPath
+
+  if (!(id.type === 'Identifier' && id.name === 'coreFormat')) return
+
+  const astIdentifier = t.identifier('ast')
+  const docIdentifier = t.identifier('doc')
+  functionDeclarationPath.traverse({
+    ReturnStatement: (returnStatementPath) => {
+      returnStatementPath
+        .get('argument')
+        .pushContainer(
+          'properties',
+          t.objectProperty(astIdentifier, astIdentifier),
+        )
+      returnStatementPath
+        .get('argument')
+        .pushContainer(
+          'properties',
+          t.objectProperty(docIdentifier, docIdentifier),
+        )
+    },
+  })
+}
+
 const modifyDocBuilderDefinitions = (functionDeclarationPath, state, t) => {
   if (!/doc-builders\.js$/.test(getRelativeFilename(state))) return
 
@@ -95,6 +124,7 @@ module.exports = ({types: t}) => ({
   visitor: {
     FunctionDeclaration: (path, state) => {
       modifyDocBuilderDefinitions(path, state, t)
+      modifyCoreFormatDefinition(path, state, t)
     },
     CallExpression: (path, state) => {
       modifyDocBuilderCalls(path, state, t)

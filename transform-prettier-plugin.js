@@ -27,7 +27,8 @@ const addGlobalAstNodeDefinition = (assignmentExpressionPath, state, t) => {
   if (left.property.name !== 'exports') return
 
   const globalAstNodeIdentifier = t.identifier(GLOBAL_AST_NODE_NAME)
-  assignmentExpressionPath.parentPath.insertBefore(
+  assignmentExpressionPath.parentPath.parentPath.unshiftContainer(
+    'body',
     t.variableDeclaration('const', [
       t.variableDeclarator(
         globalAstNodeIdentifier,
@@ -70,15 +71,41 @@ const modifyPrintAstToDocDefinition = (functionDeclarationPath, state, t) => {
     ]),
   )
   const nodeAssignmentPath = functionDeclarationPath.get('body.body.0')
+  const globalAstNodeValueMemberExpression = t.memberExpression(
+    globalAstNodeIdentifier,
+    t.identifier('value'),
+  )
+  const previousGlobalAstNodeIdentifier = t.identifier('previousGlobalAstNode')
+  nodeAssignmentPath.insertAfter(
+    t.variableDeclaration('const', [
+      t.variableDeclarator(
+        previousGlobalAstNodeIdentifier,
+        globalAstNodeValueMemberExpression,
+      ),
+    ]),
+  )
   nodeAssignmentPath.insertAfter(
     t.expressionStatement(
       t.assignmentExpression(
         '=',
-        t.memberExpression(globalAstNodeIdentifier, t.identifier('value')),
+        globalAstNodeValueMemberExpression,
         t.identifier('node'),
       ),
     ),
   )
+  functionDeclarationPath.traverse({
+    ReturnStatement: (returnStatementPath) => {
+      returnStatementPath.insertBefore(
+        t.expressionStatement(
+          t.assignmentExpression(
+            '=',
+            globalAstNodeValueMemberExpression,
+            previousGlobalAstNodeIdentifier,
+          ),
+        ),
+      )
+    },
+  })
 }
 
 const modifyCoreFormatDefinition = (functionDeclarationPath, state, t) => {
@@ -130,6 +157,52 @@ const modifyDocBuilderDefinitions = (functionDeclarationPath, state, t) => {
             t.objectProperty(
               callingLocationIdentifier,
               callingLocationIdentifier,
+            ),
+          )
+        const globalAstNodeValueMemberExpression = t.memberExpression(
+          t.identifier(GLOBAL_AST_NODE_NAME),
+          t.identifier('value'),
+        )
+        returnStatementPath
+          .get('argument')
+          .pushContainer(
+            'properties',
+            t.objectProperty(
+              t.identifier('sourceAstNode'),
+              t.conditionalExpression(
+                globalAstNodeValueMemberExpression,
+                t.objectExpression([
+                  t.objectProperty(
+                    t.identifier('type'),
+                    t.memberExpression(
+                      globalAstNodeValueMemberExpression,
+                      t.identifier('type'),
+                    ),
+                  ),
+                  t.objectProperty(
+                    t.identifier('start'),
+                    t.memberExpression(
+                      globalAstNodeValueMemberExpression,
+                      t.identifier('start'),
+                    ),
+                  ),
+                  t.objectProperty(
+                    t.identifier('end'),
+                    t.memberExpression(
+                      globalAstNodeValueMemberExpression,
+                      t.identifier('end'),
+                    ),
+                  ),
+                  t.objectProperty(
+                    t.identifier('loc'),
+                    t.memberExpression(
+                      globalAstNodeValueMemberExpression,
+                      t.identifier('loc'),
+                    ),
+                  ),
+                ]),
+                t.nullLiteral(),
+              ),
             ),
           )
       },

@@ -4,9 +4,11 @@ const path = require('path')
 const execa = require('execa')
 const fs = require('fs-extra')
 
+const {getCopyTargetDirectory} = require('./utils')
+
 const pathToOriginalPrettier = path.join(__dirname, '../../prettier')
 
-const targetDirectory = path.join(__dirname, '../prettier-tmp/copy')
+const targetDirectory = getCopyTargetDirectory()
 
 const dontCopy = ['node_modules', 'tests', 'dist', 'docs', 'website']
 

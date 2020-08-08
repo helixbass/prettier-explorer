@@ -3,6 +3,8 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@babel/cli": "^7.10.5",
+    "@babel/core": "^7.11.1",
     "@emotion/babel-preset-css-prop": "^10.0.27",
     "@emotion/core": "^10.0.28",
     "@testing-library/jest-dom": "^5.9.0",
@@ -45,7 +47,8 @@
     "test": "react-app-rewired test",
     "eject": "react-app-rewired eject",
     "lint": "eslint '**/*.ts' '**/*.tsx'",
-    "copy-prettier": "node ./scripts/copy-prettier.js"
+    "copy-prettier": "node ./scripts/copy-prettier.js",
+    "transform-prettier": "node ./scripts/transform-prettier.js"
   },
   "eslintConfig": {
     "extends": [

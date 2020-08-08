@@ -306,6 +306,9 @@ imports:
   CodeMirror:
     module: codemirror
     default: true
+  prettier:
+    module: prettier
+    default: true
 whitelist:
   - directory: src/
     allowed: [filename, named]

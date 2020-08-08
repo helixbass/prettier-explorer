@@ -9,7 +9,9 @@ const getRelativeFilename = (state) =>
   path.relative(getCopyTargetDirectory(), getFilename(state))
 
 const isDocBuildersDefinitionFile = (state) =>
-  /doc-builders\.js$/.test(getRelativeFilename(state))
+  /\/doc-builders\.js$/.test(getRelativeFilename(state))
+
+const GLOBAL_AST_NODE_NAME = '_globalAstNode'
 
 const addGlobalAstNodeDefinition = (assignmentExpressionPath, state, t) => {
   if (!isDocBuildersDefinitionFile(state)) return
@@ -24,7 +26,7 @@ const addGlobalAstNodeDefinition = (assignmentExpressionPath, state, t) => {
   if (left.property.type !== 'Identifier') return
   if (left.property.name !== 'exports') return
 
-  const globalAstNodeIdentifier = t.identifier('_globalAstNode')
+  const globalAstNodeIdentifier = t.identifier(GLOBAL_AST_NODE_NAME)
   assignmentExpressionPath.parentPath.insertBefore(
     t.variableDeclaration('const', [
       t.variableDeclarator(
@@ -41,6 +43,42 @@ const addGlobalAstNodeDefinition = (assignmentExpressionPath, state, t) => {
       'properties',
       t.objectProperty(globalAstNodeIdentifier, globalAstNodeIdentifier),
     )
+}
+
+const modifyPrintAstToDocDefinition = (functionDeclarationPath, state, t) => {
+  if (!/\/ast-to-doc\.js$/.test(getRelativeFilename(state))) return
+
+  const {
+    node: {id},
+  } = functionDeclarationPath
+
+  if (!(id.type === 'Identifier' && id.name === 'printGenerically')) return
+
+  const globalAstNodeIdentifier = t.identifier(GLOBAL_AST_NODE_NAME)
+
+  functionDeclarationPath.insertBefore(
+    t.variableDeclaration('const', [
+      t.variableDeclarator(
+        globalAstNodeIdentifier,
+        t.memberExpression(
+          t.callExpression(t.identifier('require'), [
+            t.stringLiteral('../document/doc-builders'),
+          ]),
+          globalAstNodeIdentifier,
+        ),
+      ),
+    ]),
+  )
+  const nodeAssignmentPath = functionDeclarationPath.get('body.body.0')
+  nodeAssignmentPath.insertAfter(
+    t.expressionStatement(
+      t.assignmentExpression(
+        '=',
+        t.memberExpression(globalAstNodeIdentifier, t.identifier('value')),
+        t.identifier('node'),
+      ),
+    ),
+  )
 }
 
 const modifyCoreFormatDefinition = (functionDeclarationPath, state, t) => {
@@ -160,6 +198,7 @@ module.exports = ({types: t}) => ({
     FunctionDeclaration: (path, state) => {
       modifyDocBuilderDefinitions(path, state, t)
       modifyCoreFormatDefinition(path, state, t)
+      modifyPrintAstToDocDefinition(path, state, t)
     },
     CallExpression: (path, state) => {
       modifyDocBuilderCalls(path, state, t)

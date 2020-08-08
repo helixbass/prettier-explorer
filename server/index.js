@@ -5,8 +5,10 @@ const express = require('express')
 const app = express()
 app.use(bodyParser.json())
 
+app.use('/api/v1/prettier-format', require('./handlers/prettier-format'))
+
 app.use((error, request, response, next) => {
-  console.error((new Date).toLocaleString(), err)
+  console.error((new Date).toLocaleString(), error)
   if (error.response) {
     response.status(error.response.status).send(error.response.statusText)
     return

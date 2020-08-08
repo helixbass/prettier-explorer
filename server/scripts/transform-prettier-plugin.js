@@ -1,6 +1,6 @@
 const path = require('path')
 
-const {getCopyTargetDirectory} = require('./scripts/utils')
+const {getCopyTargetDirectory} = require('./utils')
 
 const DOC_BUILDER_NAMES = ['concat', 'indent', 'align', 'group']
 

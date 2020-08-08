@@ -1,10 +1,18 @@
 import React, {FC} from 'react'
-import {flowMax, addDisplayName, addStateHandlers, addState} from 'ad-hok'
+import {
+  flowMax,
+  addDisplayName,
+  addStateHandlers,
+  addState,
+  addEffect,
+} from 'ad-hok'
+import getPrettierFormatted from 'api/getPrettierFormatted'
 
 import {makeStyles} from 'utils/style'
 import colors from 'utils/colors'
 import Editor from 'components/Editor'
 import {addCodeMirrorGlobalStyles} from 'utils/codeMirror'
+import {invoke} from 'utils/fp'
 
 const App: FC = flowMax(
   addDisplayName('App'),
@@ -32,15 +40,17 @@ const App: FC = flowMax(
   ),
   addState('formattedCode', 'setFormattedCode', ''),
   // eslint-disable-next-line ad-hok/dependencies
-  // addEffect(
-  //   ({code, setFormattedCode, codeCursorPosition}) => () => {
-  //     const {formatted} = prettier.formatWithCursor(code, {
-  //       cursorOffset: codeCursorPosition,
-  //     })
-  //     setFormattedCode(formatted)
-  //   },
-  //   ['code'],
-  // ),
+  addEffect(
+    ({code, setFormattedCode}) => () => {
+      invoke(async () => {
+        const response = await getPrettierFormatted(code)
+        console.log({response})
+        const {formatted} = response.data
+        setFormattedCode(formatted)
+      })
+    },
+    ['code'],
+  ),
   ({onCodeContentChange, onCodeCursorPositionChange, formattedCode}) => (
     <div css={styles.container}>
       <Editor

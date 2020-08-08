@@ -13,3 +13,5 @@ export const tap: TapType = (callback) => (props) => {
 type LogType = <TProps>(key: string) => UnchangedProps<TProps>
 
 export const log: LogType = (key) => tap((props) => console.log({[key]: props}))
+
+export const invoke = <TFunction extends () => any>(func: TFunction) => func()

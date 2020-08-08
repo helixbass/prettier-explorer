@@ -1,0 +1,10 @@
+parser: babel-eslint
+plugins:
+  - prettier
+extends:
+  - eslint:recommended
+  - prettier
+rules:
+  prettier/prettier: error
+env:
+  node: true

@@ -309,6 +309,9 @@ imports:
   prettier:
     module: prettier
     default: true
+  axios:
+    module: axios
+    default: true
 whitelist:
   - directory: src/
     allowed: [filename, named]

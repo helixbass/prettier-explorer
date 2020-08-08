@@ -13,6 +13,9 @@ const isDocBuildersDefinitionFile = (state) =>
 
 const GLOBAL_AST_NODE_NAME = '_globalAstNode'
 
+const getShorthandObjectProperty = (identifierNode, t) =>
+  t.objectProperty(identifierNode, identifierNode, false, true)
+
 const addGlobalAstNodeDefinition = (assignmentExpressionPath, state, t) => {
   if (!isDocBuildersDefinitionFile(state)) return
 
@@ -42,7 +45,7 @@ const addGlobalAstNodeDefinition = (assignmentExpressionPath, state, t) => {
     .get('right')
     .pushContainer(
       'properties',
-      t.objectProperty(globalAstNodeIdentifier, globalAstNodeIdentifier),
+      getShorthandObjectProperty(globalAstNodeIdentifier, t),
     )
 }
 
@@ -121,18 +124,21 @@ const modifyCoreFormatDefinition = (functionDeclarationPath, state, t) => {
   const docIdentifier = t.identifier('doc')
   functionDeclarationPath.traverse({
     ReturnStatement: (returnStatementPath) => {
-      returnStatementPath
-        .get('argument')
-        .pushContainer(
-          'properties',
-          t.objectProperty(astIdentifier, astIdentifier),
-        )
-      returnStatementPath
-        .get('argument')
-        .pushContainer(
-          'properties',
-          t.objectProperty(docIdentifier, docIdentifier),
-        )
+      const returnedObjectPath = returnStatementPath.get('argument')
+      const isTrivialEarlyReturn =
+        returnedObjectPath.node.properties[0].value.type === 'StringLiteral'
+      returnedObjectPath.pushContainer(
+        'properties',
+        isTrivialEarlyReturn
+          ? t.objectProperty(astIdentifier, t.objectExpression([]))
+          : getShorthandObjectProperty(astIdentifier, t),
+      )
+      returnedObjectPath.pushContainer(
+        'properties',
+        isTrivialEarlyReturn
+          ? t.objectProperty(docIdentifier, t.objectExpression([]))
+          : getShorthandObjectProperty(docIdentifier, t),
+      )
     },
   })
 }
@@ -154,10 +160,7 @@ const modifyDocBuilderDefinitions = (functionDeclarationPath, state, t) => {
           .get('argument')
           .pushContainer(
             'properties',
-            t.objectProperty(
-              callingLocationIdentifier,
-              callingLocationIdentifier,
-            ),
+            getShorthandObjectProperty(callingLocationIdentifier, t),
           )
         const globalAstNodeValueMemberExpression = t.memberExpression(
           t.identifier(GLOBAL_AST_NODE_NAME),

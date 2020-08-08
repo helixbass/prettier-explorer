@@ -1,0 +1,20 @@
+{
+  "name": "prettier-explorer-server",
+  "version": "1.0.0",
+  "main": "index.js",
+  "author": "Julian Rosse <@helixbass> <julian@helixbass.net> (http://helixbass.net/)",
+  "license": "MIT",
+  "scripts": {
+    "copy-prettier": "node ./scripts/copy-prettier.js",
+    "transform-prettier": "node ./scripts/transform-prettier.js",
+    "start": "STATIC=../website/build node index.js"
+  },
+  "dependencies": {
+    "@babel/cli": "^7.10.5",
+    "@babel/core": "^7.11.1",
+    "body-parser": "^1.19.0",
+    "execa": "^4.0.3",
+    "express": "^4.17.1",
+    "fs-extra": "^9.0.1"
+  }
+}

@@ -3,8 +3,6 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
-    "@babel/cli": "^7.10.5",
-    "@babel/core": "^7.11.1",
     "@emotion/babel-preset-css-prop": "^10.0.27",
     "@emotion/core": "^10.0.28",
     "@testing-library/jest-dom": "^5.9.0",
@@ -28,8 +26,6 @@
     "eslint-plugin-known-imports": "github:helixbass/eslint-plugin-known-imports#eslint-plugin-known-imports-v0.0.15-dev.2-gitpkg",
     "eslint-plugin-prettier": "^3.1.4",
     "eslint-plugin-styles-object": "^0.0.4",
-    "execa": "^4.0.3",
-    "fs-extra": "^9.0.1",
     "gsap": "^3.3.3",
     "lodash": "^4.17.15",
     "prettier": "^2.0.5",
@@ -46,9 +42,7 @@
     "build": "react-app-rewired build",
     "test": "react-app-rewired test",
     "eject": "react-app-rewired eject",
-    "lint": "eslint '**/*.ts' '**/*.tsx'",
-    "copy-prettier": "node ./scripts/copy-prettier.js",
-    "transform-prettier": "node ./scripts/transform-prettier.js"
+    "lint": "eslint '**/*.ts' '**/*.tsx'"
   },
   "eslintConfig": {
     "extends": [

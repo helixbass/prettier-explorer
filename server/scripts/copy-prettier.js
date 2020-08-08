@@ -6,7 +6,7 @@ const fs = require('fs-extra')
 
 const {getCopyTargetDirectory} = require('./utils')
 
-const pathToOriginalPrettier = path.join(__dirname, '../../prettier')
+const pathToOriginalPrettier = path.join(__dirname, '../../../prettier')
 
 const targetDirectory = getCopyTargetDirectory()
 

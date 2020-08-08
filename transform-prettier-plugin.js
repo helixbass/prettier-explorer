@@ -8,6 +8,41 @@ const getFilename = (state) => state.file.opts.filename
 const getRelativeFilename = (state) =>
   path.relative(getCopyTargetDirectory(), getFilename(state))
 
+const isDocBuildersDefinitionFile = (state) =>
+  /doc-builders\.js$/.test(getRelativeFilename(state))
+
+const addGlobalAstNodeDefinition = (assignmentExpressionPath, state, t) => {
+  if (!isDocBuildersDefinitionFile(state)) return
+
+  const {
+    node: {left},
+  } = assignmentExpressionPath
+
+  if (left.type !== 'MemberExpression') return
+  if (left.object.type !== 'Identifier') return
+  if (left.object.name !== 'module') return
+  if (left.property.type !== 'Identifier') return
+  if (left.property.name !== 'exports') return
+
+  const globalAstNodeIdentifier = t.identifier('_globalAstNode')
+  assignmentExpressionPath.parentPath.insertBefore(
+    t.variableDeclaration('const', [
+      t.variableDeclarator(
+        globalAstNodeIdentifier,
+        t.objectExpression([
+          t.objectProperty(t.identifier('value'), t.nullLiteral()),
+        ]),
+      ),
+    ]),
+  )
+  assignmentExpressionPath
+    .get('right')
+    .pushContainer(
+      'properties',
+      t.objectProperty(globalAstNodeIdentifier, globalAstNodeIdentifier),
+    )
+}
+
 const modifyCoreFormatDefinition = (functionDeclarationPath, state, t) => {
   if (!/main\/core\.js$/.test(getRelativeFilename(state))) return
 
@@ -38,7 +73,7 @@ const modifyCoreFormatDefinition = (functionDeclarationPath, state, t) => {
 }
 
 const modifyDocBuilderDefinitions = (functionDeclarationPath, state, t) => {
-  if (!/doc-builders\.js$/.test(getRelativeFilename(state))) return
+  if (!isDocBuildersDefinitionFile(state)) return
 
   const {
     node: {id},
@@ -128,6 +163,9 @@ module.exports = ({types: t}) => ({
     },
     CallExpression: (path, state) => {
       modifyDocBuilderCalls(path, state, t)
+    },
+    AssignmentExpression: (path, state) => {
+      addGlobalAstNodeDefinition(path, state, t)
     },
   },
 })
